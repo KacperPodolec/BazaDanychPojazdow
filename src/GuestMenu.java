@@ -9,6 +9,9 @@ public class GuestMenu extends JFrame {
     private JTable tablePojazdy;
     private JButton wyjscieButton;
     private JButton wsteczButton;
+    private JRadioButton wszystkiePojazdyRadioButton;
+    private JRadioButton pojazdyOsoboweRadioButton;
+    private JRadioButton motoryRadioButton;
     private DefaultTableModel tableModel;
     private int width = 500, height = 500;
 
@@ -23,7 +26,26 @@ public class GuestMenu extends JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Marka", "Model", "Typ"}, 0);
         tablePojazdy.setModel(tableModel);
 
-        wczytajPojazdy();
+        wczytajPojazdy("wszystkie");
+
+        wszystkiePojazdyRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wczytajPojazdy("wszystkie");
+            }
+        });
+        pojazdyOsoboweRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wczytajPojazdy("osobowy");
+            }
+        });
+        motoryRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wczytajPojazdy("motor");
+            }
+        });
 
         wsteczButton.addActionListener(new ActionListener() {
             @Override
@@ -42,12 +64,16 @@ public class GuestMenu extends JFrame {
         });
     }
 
-    private void wczytajPojazdy() {
+    private void wczytajPojazdy(String typ) {
         PojazdyDAO pojazdyDAO = new PojazdyDAO();
         List<Pojazd> pojazdyList = pojazdyDAO.wszystkiePojazdy();
 
+        tableModel.setRowCount(0);
+
         for (Pojazd pojazd : pojazdyList) {
-            tableModel.addRow(new Object[]{pojazd.getNumer_vin(), pojazd.getMarka(), pojazd.getModel(), pojazd.getTyp()});
+            if (typ.equals("wszystkie") || pojazd.getTyp().equalsIgnoreCase(typ)) {
+                tableModel.addRow(new Object[]{pojazd.getNumerVin(), pojazd.getMarka(), pojazd.getModel(), pojazd.getTyp()});
+            }
         }
     }
 }

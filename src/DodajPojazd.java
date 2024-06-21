@@ -8,8 +8,11 @@ public class DodajPojazd extends JFrame {
     private JButton wsteczButton;
     private JTextField markaTextField;
     private JTextField modelTextField;
-    private JTextField typTextField;
     private JTextField vinTextField;
+    private JTextField liczbaMiejscTextField;
+    private JTextField pojemnoscSilnikaTextField;
+    private JCheckBox klimatyzacjaCheckBox;
+    private JComboBox typComboBox;
 
     private int width = 500, height = 500;
 
@@ -33,32 +36,54 @@ public class DodajPojazd extends JFrame {
         dodajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String numerVin = vinTextField.getText();
-                String marka = markaTextField.getText();
-                String model = modelTextField.getText();
-                String typ = typTextField.getText();
+                try {
+                    long numerVin = Long.parseLong(vinTextField.getText());
+                    String marka = markaTextField.getText();
+                    String model = modelTextField.getText();
+                    String typ = (String) typComboBox.getSelectedItem();
 
-                if (numerVin.isEmpty() || marka.isEmpty() || model.isEmpty() || typ.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,
-                            "Wszystkie pola muszą być wypełnione", "Błąd dodawania", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    try {
+                    if (typ.equals("Osobowy")) {
+                        int liczbaMiejsc = Integer.parseInt(liczbaMiejscTextField.getText());
+                        boolean klimatyzacja = klimatyzacjaCheckBox.isSelected();
+
+                        Osobowy osobowy = new Osobowy(numerVin, marka, model, typ, liczbaMiejsc, klimatyzacja);
                         PojazdyDAO pojazdyDAO = new PojazdyDAO();
-                        Pojazd pojazd = new Pojazd(Long.parseLong(numerVin), marka, model, typ);
-                        pojazdyDAO.dodajPojazd(pojazd);
+                        pojazdyDAO.dodajOsobowy(osobowy);
+                    } else if (typ.equals("Motor")) {
+                        float pojemnoscSilnika = Float.parseFloat(pojemnoscSilnikaTextField.getText());
 
-                        JOptionPane.showMessageDialog(null, "Pojazd został dodany", "Sukces", JOptionPane.INFORMATION_MESSAGE);
-
-                        vinTextField.setText("");
-                        markaTextField.setText("");
-                        modelTextField.setText("");
-                        typTextField.setText("");
-                    } catch (NumberFormatException exception) {
-                        JOptionPane.showMessageDialog(null, "Numer VIN powinien być liczbą całkowitą", "Bład - VIN", JOptionPane.ERROR_MESSAGE);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "Wystąpił błąd podczas dodawania pojazdu", "Błąd dodawania", JOptionPane.ERROR_MESSAGE);
+                        Motor motor = new Motor(numerVin, marka, model, typ, pojemnoscSilnika);
+                        PojazdyDAO pojazdyDAO = new PojazdyDAO();
+                        pojazdyDAO.dodajMotor(motor);
+                    } else {
+                        Pojazd pojazd = new Pojazd(numerVin, marka, model, typ);
+                        PojazdyDAO pojazdyDAO = new PojazdyDAO();
                     }
+
+                    JOptionPane.showMessageDialog(null,
+                            "Pojazd został dodany", "Sukces", JOptionPane.INFORMATION_MESSAGE);
+                } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "Numer VIN, liczba miejsc i pojemność silnika muszą być liczbami", "Błąd", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        typComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String wybranyTyp = (String) typComboBox.getSelectedItem();
+                if ("Osobowy".equals(wybranyTyp)) {
+                    liczbaMiejscTextField.setEnabled(true);
+                    klimatyzacjaCheckBox.setEnabled(true);
+                    pojemnoscSilnikaTextField.setEnabled(false);
+                } else if ("Motor".equals(wybranyTyp)) {
+                    liczbaMiejscTextField.setEnabled(false);
+                    klimatyzacjaCheckBox.setEnabled(false);
+                    pojemnoscSilnikaTextField.setEnabled(true);
+                } else {
+                    liczbaMiejscTextField.setEnabled(false);
+                    klimatyzacjaCheckBox.setEnabled(false);
+                    pojemnoscSilnikaTextField.setEnabled(false);
                 }
             }
         });

@@ -7,36 +7,6 @@ import java.util.List;
 
 public class PojazdyDAO {
 
-    //usuwwanie pojazdu
-    public boolean usunPojazd(long numerVin) throws SQLException {
-        String sql = "DELETE FROM pojazdy WHERE numer_vin = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, numerVin);
-            int rowsAffected = pstmt.executeUpdate();
-
-            return rowsAffected > 0;
-        }
-    }
-
-    //dodawanie pojazdu
-    public void dodajPojazd(Pojazd pojazd) {
-        String sql = "INSERT INTO pojazdy (numer_vin, marka, model, typ) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, pojazd.getNumer_vin());
-            pstmt.setString(2, pojazd.getMarka());
-            pstmt.setString(3, pojazd.getModel());
-            pstmt.setString(4, pojazd.getTyp());
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     //wyswietlanie wszystkich pojazdow
     public List<Pojazd> wszystkiePojazdy() {
         List<Pojazd> pojazdy = new ArrayList<>();
@@ -58,5 +28,79 @@ public class PojazdyDAO {
             e.printStackTrace();
         }
         return pojazdy;
+    }
+
+    //dodawanie pojazdu
+    public void dodajOsobowy(Osobowy osobowy) {
+        String sqlPojazd = "INSERT INTO pojazdy (numer_vin, marka, model, typ) VALUES (?, ?, ?, ?)";
+        String sqlOsobowy = "INSERT INTO osobowy (numer_vin, liczba_miejsc, klimatyzacja) VALUES (?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlPojazd)) {
+                pstmt.setLong(1, osobowy.getNumerVin());
+                pstmt.setString(2, osobowy.getMarka());
+                pstmt.setString(3, osobowy.getModel());
+                pstmt.setString(4, osobowy.getTyp());
+                pstmt.executeUpdate();
+            }
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlOsobowy)) {
+                pstmt.setLong(1, osobowy.getNumerVin());
+                pstmt.setInt(2, osobowy.getLiczbaMiejsc());
+                pstmt.setBoolean(3, osobowy.isKlimatyzacja());
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dodajMotor(Motor motor) {
+        String sqlPojazd = "INSERT INTO pojazdy (numer_vin, marka, model, typ) VALUES (?, ?, ?, ?)";
+        String sqlMotor = "INSERT INTO motor (numer_vin, pojemnosc_silnika) VALUES (?, ?)";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlPojazd)) {
+                pstmt.setLong(1, motor.getNumerVin());
+                pstmt.setString(2, motor.getMarka());
+                pstmt.setString(3, motor.getModel());
+                pstmt.setString(4, motor.getTyp());
+                pstmt.executeUpdate();
+            }
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlMotor)) {
+                pstmt.setLong(1, motor.getNumerVin());
+                pstmt.setFloat(2, motor.getPojemnoscSilnika());
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //usuwwanie pojazdu
+    public boolean usunPojazd(long numerVin) throws SQLException {
+        String sqlUsunOsobowy = "DELETE FROM osobowy WHERE numer_vin = ?";
+        String sqlUsunMotor = "DELETE FROM motor WHERE numer_vin = ?";
+        String sqlUsunPojazd = "DELETE FROM pojazdy WHERE numer_vin = ?";
+        try (Connection conn = DBConnection.getConnection()) {
+            try (PreparedStatement pstmtOsobowy = conn.prepareStatement(sqlUsunOsobowy)) {
+                pstmtOsobowy.setLong(1, numerVin);
+                pstmtOsobowy.executeUpdate();
+            }
+
+            try (PreparedStatement pstmtMotor = conn.prepareStatement(sqlUsunMotor)) {
+                pstmtMotor.setLong(1, numerVin);
+                pstmtMotor.executeUpdate();
+            }
+
+            try (PreparedStatement pstmtPojazd = conn.prepareStatement(sqlUsunPojazd)) {
+                pstmtPojazd.setLong(1, numerVin);
+                int rowsAffected = pstmtPojazd.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -8,6 +8,9 @@ public class BazaPojazdow extends JFrame {
     private JPanel panelBazaPojazdow;
     private JTable tablePojazdy;
     private JButton wsteczButton;
+    private JRadioButton wszystkiePojazdyRadioButton;
+    private JRadioButton motoryRadioButton;
+    private JRadioButton pojazdyOsoboweRadioButton;
     private DefaultTableModel tableModel;
     private int width = 500, height = 500;
 
@@ -19,10 +22,29 @@ public class BazaPojazdow extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Marka", "Model", "Typ"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"Numer VIN", "Marka", "Model", "Typ"}, 0);
         tablePojazdy.setModel(tableModel);
 
-        wczytajPojazdy();
+        wczytajPojazdy("wszystkie");
+
+        wszystkiePojazdyRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wczytajPojazdy("wszystkie");
+            }
+        });
+        pojazdyOsoboweRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wczytajPojazdy("osobowy");
+            }
+        });
+        motoryRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wczytajPojazdy("motor");
+            }
+        });
 
         wsteczButton.addActionListener(new ActionListener() {
             @Override
@@ -34,12 +56,16 @@ public class BazaPojazdow extends JFrame {
         });
     }
 
-    private void wczytajPojazdy() {
+    private void wczytajPojazdy(String typ) {
         PojazdyDAO pojazdyDAO = new PojazdyDAO();
         List<Pojazd> pojazdyList = pojazdyDAO.wszystkiePojazdy();
 
+        tableModel.setRowCount(0);
+
         for (Pojazd pojazd : pojazdyList) {
-            tableModel.addRow(new Object[]{pojazd.getNumer_vin(), pojazd.getMarka(), pojazd.getModel(), pojazd.getTyp()});
+            if (typ.equals("wszystkie") || pojazd.getTyp().equalsIgnoreCase(typ)) {
+                tableModel.addRow(new Object[]{pojazd.getNumerVin(), pojazd.getMarka(), pojazd.getModel(), pojazd.getTyp()});
+            }
         }
     }
 }
