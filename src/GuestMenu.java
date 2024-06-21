@@ -23,7 +23,7 @@ public class GuestMenu extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Marka", "Model", "Typ"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"Numer VIN", "Marka", "Model", "Typ"}, 0);
         tablePojazdy.setModel(tableModel);
 
         wczytajPojazdy("wszystkie");
