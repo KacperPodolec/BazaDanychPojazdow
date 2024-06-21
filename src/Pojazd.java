@@ -11,7 +11,7 @@ public class Pojazd {
         this.typ = typ;
     }
 
-    public long getNumerVin() {s
+    public long getNumerVin() {
         return numer_vin;
     }
 

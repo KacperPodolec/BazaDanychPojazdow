@@ -7,6 +7,37 @@ import java.util.List;
 
 public class PojazdyDAO {
 
+    public Pojazd znajdzPojazd(long numerVin) {
+        String sql = "SELECT * FROM pojazdy LEFT JOIN motor ON pojazdy.numer_vin = motor.numer_vin LEFT JOIN osobowy ON pojazdy.numer_vin = osobowy.numer_vin WHERE pojazdy.numer_vin = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, numerVin);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String marka = rs.getString("marka");
+                    String model = rs.getString("model");
+                    String typ = rs.getString("typ");
+
+                    if (typ.equalsIgnoreCase("Motor")) {
+                        float pojemnoscSilnika = rs.getFloat("pojemnosc_silnika");
+                        return new Motor(numerVin, marka, model, typ, pojemnoscSilnika);
+                    } else if (typ.equalsIgnoreCase("Osobowy")) {
+                        boolean klimatyzacja = rs.getBoolean("klimatyzacja");
+                        int iloscMiejsc = rs.getInt("liczba_miejsc");
+                        return new Osobowy(numerVin, marka, model, typ, iloscMiejsc, klimatyzacja);
+                    } else {
+                        return new Pojazd(numerVin, marka, model, typ);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     //wyswietlanie wszystkich pojazdow
     public List<Pojazd> wszystkiePojazdy() {
         List<Pojazd> pojazdy = new ArrayList<>();
