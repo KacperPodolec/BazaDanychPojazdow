@@ -23,6 +23,7 @@ public class DodajPojazd extends JFrame {
         this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        typComboBox.setSelectedItem("Osobowy");
 
         wsteczButton.addActionListener(new ActionListener() {
             @Override

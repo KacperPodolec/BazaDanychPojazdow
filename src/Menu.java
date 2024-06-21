@@ -23,8 +23,8 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                SelectUser selectUser = new SelectUser();
-                selectUser.setVisible(true);
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
             }
         });
 

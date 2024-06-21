@@ -15,7 +15,7 @@ public class BazaPojazdow extends JFrame {
     private JRadioButton pojazdyOsoboweRadioButton;
     private JTextArea szczegolyTextArea;
     private DefaultTableModel tableModel;
-    private int width = 500, height = 500;
+    private int width = 1000, height = 500;
 
     public BazaPojazdow() {
         super("Baza pojazdów");

@@ -30,7 +30,7 @@ public class WelcomeForm extends JFrame {
             counter += 5;
         }
         dispose();
-        SelectUser selectUser = new SelectUser();
-        selectUser.setVisible(true);
+        LoginForm loginForm = new LoginForm();
+        loginForm.setVisible(true);
     }
 }

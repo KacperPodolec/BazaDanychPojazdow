@@ -37,8 +37,8 @@ public class SelectUser extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                GuestMenu guestMenu = new GuestMenu();
-                guestMenu.setVisible(true);
+                Menu menu = new Menu();
+                menu.setVisible(true);
             }
         });
     }

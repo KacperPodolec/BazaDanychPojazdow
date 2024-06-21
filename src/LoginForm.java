@@ -7,7 +7,7 @@ public class LoginForm extends JFrame {
     private JTextField usernameTextField;
     private JPasswordField passwordField;
     private JButton zalogujSieButton;
-    private JButton wsteczButton;
+    private JButton wyjscieButton;
     private int width = 500, height = 500;
 
     public LoginForm() {
@@ -38,11 +38,10 @@ public class LoginForm extends JFrame {
             }
         });
 
-        wsteczButton.addActionListener(new ActionListener() {
+        wyjscieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                SelectUser selectUser = new SelectUser();
             }
         });
     }
