@@ -9,8 +9,4 @@ public class Motor extends Pojazd {
     public float getPojemnoscSilnika() {
         return pojemnoscSilnika;
     }
-
-    public void setPojemnoscSilnika(float pojemnoscSilnika) {
-        this.pojemnoscSilnika = pojemnoscSilnika;
-    }
 }

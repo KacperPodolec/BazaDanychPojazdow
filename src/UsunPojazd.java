@@ -4,9 +4,10 @@ import java.awt.event.ActionListener;
 
 public class UsunPojazd extends JFrame {
     private JPanel panelUsunPojazd;
-    private JButton wsteczButton;
     private JTextField vinTextField2;
     private JButton usunButton;
+    private JButton wyczyscButton;
+    private JButton wsteczButton;
     private int width = 500, height = 500;
 
     public UsunPojazd() {
@@ -16,15 +17,6 @@ public class UsunPojazd extends JFrame {
         this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-        wsteczButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                Menu menu = new Menu();
-                menu.setVisible(true);
-            }
-        });
 
         usunButton.addActionListener(new ActionListener() {
             @Override
@@ -58,6 +50,21 @@ public class UsunPojazd extends JFrame {
                                 "Wystąpił błąd podczas usuwania pojazdu", "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
                 }
+            }
+        });
+        wyczyscButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vinTextField2.setText("");
+            }
+        });
+
+        wsteczButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                Menu menu = new Menu();
+                menu.setVisible(true);
             }
         });
     }

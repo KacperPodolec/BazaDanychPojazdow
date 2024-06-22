@@ -19,23 +19,11 @@ public class Pojazd {
         return marka;
     }
 
-    public void setMarka(String marka) {
-        this.marka = marka;
-    }
-
     public String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
     public String getTyp() {
         return typ;
-    }
-
-    public void setTyp(String typ) {
-        this.typ = typ;
     }
 }

@@ -8,13 +8,13 @@ import java.util.List;
 
 public class BazaPojazdow extends JFrame {
     private JPanel panelBazaPojazdow;
-    private JTable tablePojazdy;
-    private JButton wsteczButton;
     private JRadioButton wszystkiePojazdyRadioButton;
     private JRadioButton motoryRadioButton;
     private JRadioButton pojazdyOsoboweRadioButton;
-    private JTextArea szczegolyTextArea;
+    private JTable tablePojazdy;
     private DefaultTableModel tableModel;
+    private JButton wsteczButton;
+    private JTextArea szczegolyTextArea;
     private int width = 1000, height = 500;
 
     public BazaPojazdow() {
@@ -24,13 +24,14 @@ public class BazaPojazdow extends JFrame {
         this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        szczegolyTextArea.setEditable(false);
-        szczegolyTextArea.setSize(10, 50);
 
         tableModel = new DefaultTableModel(new Object[]{"Numer VIN", "Marka", "Model", "Typ"}, 0);
         tablePojazdy.setModel(tableModel);
 
         wczytajPojazdy("wszystkie");
+
+        szczegolyTextArea.setEditable(false);
+        szczegolyTextArea.setSize(10, 50);
 
         wszystkiePojazdyRadioButton.addActionListener(new ActionListener() {
             @Override
@@ -38,25 +39,18 @@ public class BazaPojazdow extends JFrame {
                 wczytajPojazdy("wszystkie");
             }
         });
+
         pojazdyOsoboweRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 wczytajPojazdy("osobowy");
             }
         });
+
         motoryRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 wczytajPojazdy("motor");
-            }
-        });
-
-        wsteczButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                Menu menu = new Menu();
-                menu.setVisible(true);
             }
         });
 
@@ -73,6 +67,28 @@ public class BazaPojazdow extends JFrame {
                 }
             }
         });
+
+        wsteczButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                Menu menu = new Menu();
+                menu.setVisible(true);
+            }
+        });
+    }
+
+    private void wczytajPojazdy(String typ) {
+        PojazdyDAO pojazdyDAO = new PojazdyDAO();
+        List<Pojazd> pojazdyList = pojazdyDAO.wszystkiePojazdy();
+
+        tableModel.setRowCount(0);
+
+        for (Pojazd pojazd : pojazdyList) {
+            if (typ.equals("wszystkie") || pojazd.getTyp().equalsIgnoreCase(typ)) {
+                tableModel.addRow(new Object[]{pojazd.getNumerVin(), pojazd.getMarka(), pojazd.getModel(), pojazd.getTyp()});
+            }
+        }
     }
 
     private void wyswietlSzczegolyPojazdu(long numerVin) {
@@ -99,19 +115,6 @@ public class BazaPojazdow extends JFrame {
             szczegolyTextArea.setText(szczegoly.toString());
         } else {
             szczegolyTextArea.setText("Nie znaleziono szczegółowych informacji o pojeździe.");
-        }
-    }
-
-    private void wczytajPojazdy(String typ) {
-        PojazdyDAO pojazdyDAO = new PojazdyDAO();
-        List<Pojazd> pojazdyList = pojazdyDAO.wszystkiePojazdy();
-
-        tableModel.setRowCount(0);
-
-        for (Pojazd pojazd : pojazdyList) {
-            if (typ.equals("wszystkie") || pojazd.getTyp().equalsIgnoreCase(typ)) {
-                tableModel.addRow(new Object[]{pojazd.getNumerVin(), pojazd.getMarka(), pojazd.getModel(), pojazd.getTyp()});
-            }
         }
     }
 }

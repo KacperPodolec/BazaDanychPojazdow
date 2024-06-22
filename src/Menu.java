@@ -7,8 +7,8 @@ public class Menu extends JFrame {
     private JButton przegladajButton;
     private JButton usunPojazdButton;
     private JButton dodajPojazdButton;
-    private JButton wyjscieButton;
     private JButton wylogujButton;
+    private JButton wyjscieButton;
     private int width = 500, height = 500;
 
     public Menu() {
@@ -18,22 +18,6 @@ public class Menu extends JFrame {
         this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-        wylogujButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true);
-            }
-        });
-
-        wyjscieButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
 
         przegladajButton.addActionListener(new ActionListener() {
             @Override
@@ -59,6 +43,22 @@ public class Menu extends JFrame {
                 dispose();
                 UsunPojazd usunPojazd = new UsunPojazd();
                 usunPojazd.setVisible(true);
+            }
+        });
+
+        wylogujButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
+            }
+        });
+
+        wyjscieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
             }
         });
     }

@@ -3,11 +3,10 @@ import javax.swing.*;
 public class WelcomeForm extends JFrame {
     private JPanel panelWelcome;
     private JProgressBar progressBar1;
-    private JLabel lblProszeCzekac;
-    private int width = 500, height = 500;
+    private int width = 300, height = 200;
 
     public WelcomeForm() {
-        super("Baza danych pojazdów");
+        super("Uruchamianie");
         this.setContentPane(this.panelWelcome);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(width, height);
@@ -20,7 +19,6 @@ public class WelcomeForm extends JFrame {
     private void progression() {
         int counter = 0;
         while (counter <= 100) {
-            lblProszeCzekac.setText("Proszę czekać...");
             progressBar1.setValue(counter);
             try {
                 Thread.sleep(100);

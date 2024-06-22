@@ -12,15 +12,7 @@ public class Osobowy extends Pojazd {
         return liczbaMiejsc;
     }
 
-    public void setLiczbaMiejsc(int liczbaMiejsc) {
-        this.liczbaMiejsc = liczbaMiejsc;
-    }
-
     public boolean isKlimatyzacja() {
         return klimatyzacja;
-    }
-
-    public void setKlimatyzacja(boolean klimatyzacja) {
-        this.klimatyzacja = klimatyzacja;
     }
 }

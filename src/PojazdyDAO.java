@@ -7,6 +7,29 @@ import java.util.List;
 
 public class PojazdyDAO {
 
+    //wyswietlanie wszystkich pojazdow
+    public List<Pojazd> wszystkiePojazdy() {
+        List<Pojazd> pojazdy = new ArrayList<>();
+        String sql = "SELECT * FROM pojazdy";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                long numer_vin = rs.getLong("numer_vin");
+                String marka = rs.getString("marka");
+                String model = rs.getString("model");
+                String typ = rs.getString("typ");
+                pojazdy.add(new Pojazd(numer_vin, marka, model, typ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pojazdy;
+    }
+
     public Pojazd znajdzPojazd(long numerVin) {
         String sql = "SELECT * FROM pojazdy LEFT JOIN motor ON pojazdy.numer_vin = motor.numer_vin LEFT JOIN osobowy ON pojazdy.numer_vin = osobowy.numer_vin WHERE pojazdy.numer_vin = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -36,29 +59,6 @@ public class PojazdyDAO {
             e.printStackTrace();
         }
         return null;
-    }
-
-    //wyswietlanie wszystkich pojazdow
-    public List<Pojazd> wszystkiePojazdy() {
-        List<Pojazd> pojazdy = new ArrayList<>();
-        String sql = "SELECT * FROM pojazdy";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                long numer_vin = rs.getLong("numer_vin");
-                String marka = rs.getString("marka");
-                String model = rs.getString("model");
-                String typ = rs.getString("typ");
-                pojazdy.add(new Pojazd(numer_vin, marka, model, typ));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return pojazdy;
     }
 
     //dodawanie pojazdu

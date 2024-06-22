@@ -11,7 +11,7 @@ public class LoginForm extends JFrame {
     private int width = 500, height = 500;
 
     public LoginForm() {
-        super("Okno logowania");
+        super("Logowanie");
         this.setContentPane(this.panelLogin);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(width, height);
