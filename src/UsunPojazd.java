@@ -25,7 +25,7 @@ public class UsunPojazd extends JFrame {
 
                 if (numerVin.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
-                            "Wprowadź numer VIN pojazdu do usunięcia", "Błąd", JOptionPane.ERROR_MESSAGE);
+                            "Nie podano numeru VIN", "Uwaga", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     try {
                         PojazdyDAO pojazdyDAO = new PojazdyDAO();
@@ -33,10 +33,10 @@ public class UsunPojazd extends JFrame {
 
                         if (success) {
                             JOptionPane.showMessageDialog(null,
-                                    "Pojazd o numerze VIN " + numerVin + " został usunięty", "Sukces", JOptionPane.INFORMATION_MESSAGE);
+                                    "Pojazd o numerze VIN: [" + numerVin + "] został usunięty", "Sukces", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null,
-                                    "Nie znaleziono pojazdu o numerze VIN " + numerVin, "Błąd", JOptionPane.ERROR_MESSAGE);
+                                    "Nie znaleziono pojazdu o numerze VIN: [" + numerVin + "]", "Błąd", JOptionPane.INFORMATION_MESSAGE);
                         }
 
                         vinTextField2.setText("");

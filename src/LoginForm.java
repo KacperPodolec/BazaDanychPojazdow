@@ -24,16 +24,25 @@ public class LoginForm extends JFrame {
                 String usernameInput = usernameTextField.getText();
                 String passwordInput = new String(passwordField.getPassword());
 
-                UserVerification userVerification = new UserVerification();
-                boolean isAdmin = userVerification.verifyAdminLogin(usernameInput, passwordInput);
+                if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Pola login i hasło nie mogą być puste", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                if (isAdmin) {
-                    dispose();
-                    Menu menu = new Menu();
-                    menu.setVisible(true);
-                    JOptionPane.showMessageDialog(null, "Logowanie powiodło się", "Status logowania", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Logowanie nie powiodło się", "Status logowania", JOptionPane.ERROR_MESSAGE);
+                try {
+                    UserVerification userVerification = new UserVerification();
+                    boolean isAdmin = userVerification.verifyAdminLogin(usernameInput, passwordInput);
+
+                    if (isAdmin) {
+                        dispose();
+                        Menu menu = new Menu();
+                        menu.setVisible(true);
+                        JOptionPane.showMessageDialog(null, "Logowanie powiodło się", "Status logowania", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Logowanie nie powiodło się", "Status logowania", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             }
         });

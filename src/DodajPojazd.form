@@ -192,7 +192,9 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <editable value="true"/>
                   <font name="JetBrains Mono Light"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="32c5c" class="javax.swing.JLabel">
